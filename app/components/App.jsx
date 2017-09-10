@@ -1,40 +1,35 @@
 import React from 'react'
 import {
-  BrowserRouter as Router,
-  Route,
-  Link,
+	BrowserRouter as Router,
+	Route,
+	Link,
 } from 'react-router-dom'
-import browserHistory from 'react-router' 
+import Home from './home'
 import Register from './register'
 import Registered from './registered'
 import Verify from './verify'
 
-const App = () => (
-  <Router>
-    <div>
-      <div>
-        <h2>2-Factor Authentication</h2> 
-      </div>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/register">Register</Link></li>
-        <li><Link to="/registered_entries">Registered Entries</Link></li>
-      </ul>
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 
-      <hr/>
+	render() {
+		return(
+			<Router>
+				<div>
+					<nav className ="navbar navbar-dark" style={{backgroundColor: '#8ca5a0'}}>
+  						<a className = "navbar-brand" href="/"><h1>Home</h1></a>
+					</nav>
 
-      <Route exact path="/" component={Home}/>
-      <Route path="/register" component={Register}/>
-      <Route path="/verify" component={Verify}/>
-      <Route path="/registered_entries" component={Registered}/>
-    </div>
-  </Router>
-)
-
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-)
+					<Route exact path="/" component={Home}/>
+					<Route path="/register" component={Register}/>
+					<Route path="/verify" component={Verify}/>
+					<Route path="/registered_entries" component={Registered}/>
+				</div>
+			</Router>
+		);
+	}
+}
 
 export default App

@@ -1,0 +1,23 @@
+.main-div {
+	min-height:90vh;
+	background-color: #f1f1f1;
+	height: auto;
+}
+
+.main-div-content {
+	height: 100%;
+}
+
+.div-contents {
+	padding-top: 60px;
+}
+
+.links {
+	padding-top: 50px;
+}
+
+.error-field {
+	color: #721c24;
+	float: left;
+	padding-left: 10px;
+}

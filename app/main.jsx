@@ -5,7 +5,10 @@ import App from './components/App';
 import Alert from 'react-s-alert';
 
 render(
-	<div><App/><Alert stack={true} /></div>,
+	<div>
+		<App/>
+		<Alert stack={true} />
+	</div>,
 	document.getElementById('container')
 );
  

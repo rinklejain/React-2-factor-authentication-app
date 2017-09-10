@@ -1,8 +1,6 @@
-import React from 'react';
+import React from 'react'
 import {Redirect, withRouter} from 'react-router-dom'
-import Alert from 'react-s-alert';
-
-
+import Alert from 'react-s-alert'
 
 var sid = require('shortid');
 
@@ -14,8 +12,8 @@ class Verify extends React.Component {
 			redirect = true;
 		}
 		this.state = {
-			count : 0,
-			code : sid.generate(),
+			count: 0,
+			code: sid.generate(),
 			verified: false,
 			redirect: redirect
 		}
@@ -39,19 +37,20 @@ class Verify extends React.Component {
 		if(this.state.code == this.input.value)
 		{
 			this.setState({
-				verified : true,
-				redirect : true
+				verified: true,
+				redirect: true
 			});
 			Alert.info("Number: " + number + " registered successfully!");
 			return;
 		}
+		this.input.value = '';
 		this.setState(prevState => ({
 			count: prevState.count + 1
 		}));
 		if(this.state.count == 2){
 			localStorage.removeItem(number);
 			this.setState({
-				redirect : true
+				redirect: true
 			});
 			Alert.info("Too many unsuccesful attempts. Number: " + 
 				number + " not registered.");
@@ -61,22 +60,33 @@ class Verify extends React.Component {
 	render(){
 		var count = this.state.count;
 		if(this.props.location.state)
-		var number = this.props.location.state.number;//this.props.location.state.number;
+		var number = this.props.location.state.number;
 		return (
-		<div>
-		{this.state.redirect && <Redirect to = {{ pathname: '/'}} />}
-		{count > 0 && <div>Incorrect Code, {3 - count} attempts remaining </div>}
-		<form onSubmit = {this.handleSubmit}>
-			<label>
-			Verification Code:
-			<input type="password" ref={(input) => this.input = input} 
-				placeholder = "password" defaultValue = ''/>
-			</label>
-			<input type="submit" value="Submit" />
-		</form>			
-		</div>
+			<div className = "row align-items-center main-div" >
+				<div className = "col-2"></div>
+				<div className = "col-8 card text-center main-div-content">
+					<div className = "card-body div-contents">
+						{this.state.redirect && <Redirect to = {{ pathname: '/'}} />}
+						<h3 className ="card-subtitle mb-2 text-muted">
+						  A verification code has been sent to {number.substring(0,1)}******{number.substring(-1,3)}
+						</h3>
+						<form onSubmit = {this.handleSubmit}>
+							<div className = "form-group row div-contents">
+								<label className = "col-sm-2 col-form-label">Verification Code</label>
+								<div className = "col-sm-8">
+								<input type="password" ref={(input) => this.input = input} 
+								  placeholder = "password" defaultValue="" className = "form-control"/>
+								{count > 0 && <small className="form-text error-field">
+								  Incorrect Code, {3 - count} attempts remaining</small>} 
+								</div>
+							</div>
+							<button type="submit" value="Submit" className="btn btn-primary"> Submit </button>
+						</form>	
+					</div>
+				</div>		
+			</div>
 		);
 	}
 }
 
-export default Verify;
+export default Verify
