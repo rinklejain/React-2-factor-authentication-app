@@ -1,6 +1,7 @@
 import React from 'react';
-import Popup from 'react-popup';
 import {Redirect, withRouter} from 'react-router-dom'
+import Alert from 'react-s-alert';
+
 
 
 var sid = require('shortid');
@@ -34,23 +35,26 @@ class Verify extends React.Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
+		let number = this.props.location.state.number;
 		if(this.state.code == this.input.value)
 		{
 			this.setState({
 				verified : true,
 				redirect : true
 			});
+			Alert.info("Number: " + number + " registered successfully!");
 			return;
 		}
 		this.setState(prevState => ({
 			count: prevState.count + 1
 		}));
 		if(this.state.count == 2){
-			localStorage.removeItem(this.props.location.state.number);
+			localStorage.removeItem(number);
 			this.setState({
 				redirect : true
 			});
-			
+			Alert.info("Too many unsuccesful attempts. Number: " + 
+				number + " not registered.");
 		}
 	}
 

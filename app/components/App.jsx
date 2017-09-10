@@ -12,6 +12,9 @@ import Verify from './verify'
 const App = () => (
   <Router>
     <div>
+      <div>
+        <h2>2-Factor Authentication</h2> 
+      </div>
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/register">Register</Link></li>
