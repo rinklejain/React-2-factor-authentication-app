@@ -5,11 +5,12 @@ import {
   Link,
 } from 'react-router-dom'
 import browserHistory from 'react-router' 
-import Register from './register.jsx'
-import Registered from './registered.jsx'
+import Register from './register'
+import Registered from './registered'
+import Verify from './verify'
 
 const App = () => (
-  <Router history = {browserHistory}>
+  <Router>
     <div>
       <ul>
         <li><Link to="/">Home</Link></li>
@@ -21,6 +22,7 @@ const App = () => (
 
       <Route exact path="/" component={Home}/>
       <Route path="/register" component={Register}/>
+      <Route path="/verify" component={Verify}/>
       <Route path="/registered_entries" component={Registered}/>
     </div>
   </Router>
