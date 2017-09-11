@@ -16,7 +16,7 @@ class Register extends React.Component {
 
 	handleUserInput(e){
 		let value = this.input.value;
-		let inputValid = value.match(/^[2-9]{2}[0-9]{8}$/i);
+		let inputValid = value.match(/^[2-9]{1}[0-9]{9}$/i);
 		let err = inputValid ? '' : '* Number is invalid';
 		this.setState({
 			formError: err,

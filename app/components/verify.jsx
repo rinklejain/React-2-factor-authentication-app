@@ -21,9 +21,24 @@ class Verify extends React.Component {
 		console.log("Verification Code:", this.state.code);
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.componentCleanup = this.componentCleanup.bind(this);
 	}
 
+	componentDidMount(){
+		window.addEventListener('beforeunload', this.componentCleanup);
+	}
+
+	componentCleanup() {
+		if(this.state.verified == false && this.state.count < 3) {
+			localStorage.removeItem(this.props.location.state.number);
+			this.setState({
+				redirect:true
+			});
+		}
+    }
+
 	componentWillUnmount(){
+        window.removeEventListener('beforeunload', this.componentCleanup);
 		if(this.state.redirect == true)
 			return;
 		if(this.state.verified == false && this.state.count < 3) {
@@ -59,8 +74,9 @@ class Verify extends React.Component {
 
 	render(){
 		var count = this.state.count;
+		var number = '';
 		if(this.props.location.state)
-		var number = this.props.location.state.number;
+		number = this.props.location.state.number;
 		return (
 			<div className = "row align-items-center main-div" >
 				<div className = "col-2"></div>
@@ -68,14 +84,16 @@ class Verify extends React.Component {
 					<div className = "card-body div-contents">
 						{this.state.redirect && <Redirect to = {{ pathname: '/'}} />}
 						<h3 className ="card-subtitle mb-2 text-muted">
-						  A verification code has been sent to {number.substring(0,1)}******{number.substring(-1,3)}
+						  A verification code has been sent to {number.substring(0,1)}{'*'.repeat(6)}{number.substring(-1,3)}
 						</h3>
+						<h6 className ="card-subtitle mb-2 text-muted">
+						  (Do not refresh page)</h6>
 						<form onSubmit = {this.handleSubmit}>
 							<div className = "form-group row div-contents">
 								<label className = "col-sm-2 col-form-label">Verification Code</label>
 								<div className = "col-sm-8">
 								<input type="password" ref={(input) => this.input = input} 
-								  placeholder = "password" defaultValue="" className = "form-control"/>
+								  placeholder = "Password" defaultValue="" className = "form-control" required/>
 								{count > 0 && <small className="form-text error-field">
 								  Incorrect Code, {3 - count} attempts remaining</small>} 
 								</div>
