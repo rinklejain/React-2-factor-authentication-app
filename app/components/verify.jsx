@@ -2,55 +2,25 @@ import React from 'react'
 import {Redirect, withRouter} from 'react-router-dom'
 import Alert from 'react-s-alert'
 
-var sid = require('shortid');
-
 class Verify extends React.Component {
 	constructor(props) {
 		super(props);
-		var redirect = false;
-		if(!this.props.location.state){
-			redirect = true;
-		}
+		
 		this.state = {
 			count: 0,
-			code: sid.generate(),
 			verified: false,
-			redirect: redirect
+			redirect: false
 		}
-		// Verification code is logged.
-		console.log("Verification Code:", this.state.code);
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.componentCleanup = this.componentCleanup.bind(this);
-	}
-
-	componentDidMount(){
-		window.addEventListener('beforeunload', this.componentCleanup);
-	}
-
-	componentCleanup() {
-		if(this.state.verified == false && this.state.count < 3) {
-			localStorage.removeItem(this.props.location.state.number);
-			this.setState({
-				redirect:true
-			});
-		}
-    }
-
-	componentWillUnmount(){
-        window.removeEventListener('beforeunload', this.componentCleanup);
-		if(this.state.redirect == true)
-			return;
-		if(this.state.verified == false && this.state.count < 3) {
-			localStorage.removeItem(this.props.location.state.number);
-		}
 	}
 
 	handleSubmit(e) {
 		e.preventDefault();
-		let number = this.props.location.state.number;
-		if(this.state.code == this.input.value)
+		let number = this.props.number;
+		if(this.props.otp == this.input.value)
 		{
+			localStorage.setItem(number, 0);
 			this.setState({
 				verified: true,
 				redirect: true
@@ -63,7 +33,6 @@ class Verify extends React.Component {
 			count: prevState.count + 1
 		}));
 		if(this.state.count == 2){
-			localStorage.removeItem(number);
 			this.setState({
 				redirect: true
 			});
@@ -75,8 +44,8 @@ class Verify extends React.Component {
 	render(){
 		var count = this.state.count;
 		var number = '';
-		if(this.props.location.state)
-		number = this.props.location.state.number;
+		if(this.props)
+		number = this.props.number;
 		return (
 			<div className = "row align-items-center main-div" >
 				<div className = "col-2"></div>
